@@ -54,7 +54,7 @@ router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
 
 // User profile
-router.get('/user/profile', isAuthorized, getUserProfile);
+router.get('/user/:id', isAuthorized, getUserProfile);
 
 // get events for user
 router.get('/user/:id/events', isAuthorized, getEventsForUser);

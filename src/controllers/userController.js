@@ -228,11 +228,11 @@ const updateUserProfile = async (req, res) => {
 
     // Check if the user exists
     if (!updatedUser) {
-      return res.status(404).json({ message: 'User not found.' });
+      return res.status(404).json({ message: 'User not found.' }).;
     }
     await user.save();
 
-    return res.status(200).json({ message: 'Profile updated successfully.' }).json(user);
+    return res.status(200).json({ message: 'Profile updated successfully.', user});
   } catch (error) {
     console.error('Error updating user profile:', error);
     return res

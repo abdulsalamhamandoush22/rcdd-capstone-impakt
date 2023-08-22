@@ -232,7 +232,7 @@ const updateUserProfile = async (req, res) => {
     }
     await user.save();
 
-    return res.status(200).json({ message: 'Profile updated successfully.'}, updatedUser);
+    return res.status(200).json({ message: 'Profile updated successfully.'});
   } catch (error) {
     console.error('Error updating user profile:', error);
     return res

@@ -193,7 +193,7 @@
         ]
       }
     },
-    "/user/{userId}": {
+    "/user/profile": {
       "get": {
         "tags": ["User Routes"],
         "summary": "Get user profile",

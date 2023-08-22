@@ -197,44 +197,37 @@ const login = async (req, res) => {
     // console.error('Error logging in user:', error);
     return res.status(500).json({ error: 'Something went wrong.' });
   }
-};
-const updateUserProfile = async (req, res) => {
-  const { name, location, phone, interests, password, profilePicture } =
-    req.body;
+};const updateUserProfile = async (req, res) => {
+  const { name, location, phone, interests, password, profilePicture } = req.body;
 
   try {
-    // Retrieve the user from the database based on the authenticated user's ID
-    const user = await User.findById(req.user.id);
-
-    // Check if the user exists
-    if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
-    }
-
-    // Update the user profile fields
-    user.name = name;
-    user.location = location;
-    user.phone = phone;
-    user.interests = interests;
-    user.profilePicture = profilePicture;
-
     // Check if a new password is provided
     if (password) {
-      // Check if the new password matches the previous password
-      const isPasswordMatch = await bcrypt.compare(password, user.password);
-      if (isPasswordMatch) {
-        return res.status(400).json({
-          message: 'New password cannot be the same as the previous password.',
-        });
-      }
-
-      // Hash the new password
-      const hashedPassword = await bcrypt.hash(password, 10);
-      user.password = hashedPassword;
+      return res.status(400).json({
+        message: 'Cannot update password using this endpoint.',
+      });
     }
 
-    // Save the updated user profile to the database
-    await user.save();
+    // Construct the update object with the new profile fields
+    const updateObject = {
+      name,
+      location,
+      phone,
+      interests,
+      profilePicture,
+    };
+
+    // Find and update the user's profile in the database based on the authenticated user's ID
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      updateObject,
+      { new: true } // This option returns the updated document
+    );
+
+    // Check if the user exists
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
 
     return res.status(200).json({ message: 'Profile updated successfully.' });
   } catch (error) {

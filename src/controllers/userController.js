@@ -197,7 +197,9 @@ const login = async (req, res) => {
     // console.error('Error logging in user:', error);
     return res.status(500).json({ error: 'Something went wrong.' });
   }
-};const updateUserProfile = async (req, res) => {
+};
+
+const updateUserProfile = async (req, res) => {
   const { name, location, phone, interests, password, profilePicture } = req.body;
 
   try {
@@ -228,8 +230,9 @@ const login = async (req, res) => {
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found.' });
     }
+    await user.save();
 
-    return res.status(200).json({ message: 'Profile updated successfully.' });
+    return res.status(200).json({ message: 'Profile updated successfully.' }).json(user);
   } catch (error) {
     console.error('Error updating user profile:', error);
     return res

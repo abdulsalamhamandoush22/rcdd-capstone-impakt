@@ -16,7 +16,10 @@ const isAuthorized = async (req, res, next) => {
     if (!user) {
       return res.status(401).json({ msg: 'User not found.' });
     }
-
+    if (req.params.userId && user._id.toString() !== req.params.userId) {
+      return res.status(403).json({ msg: 'Unauthorized access.' });
+    }
+    
     req.user = user;
     return next();
   } catch (err) {

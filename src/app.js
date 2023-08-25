@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'assets')));
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(
   session({
-    secret: 'your-secret-key', // Replace with your actual secret key
+    secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: true,
   })

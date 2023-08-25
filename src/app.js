@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const session = require('express-session');
 const swaggerUi = require('swagger-ui-express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -30,6 +31,17 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'assets')));
 app.use(express.static(path.join(__dirname, 'views')));
+app.use(
+  session({
+    secret: 'your-secret-key', // Replace with your actual secret key
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// Initialize Passport and add it as middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use('/', userRoutes);

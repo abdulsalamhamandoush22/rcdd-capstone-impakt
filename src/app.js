@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
+const passport = require('passport');
 const swaggerUi = require('swagger-ui-express');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');

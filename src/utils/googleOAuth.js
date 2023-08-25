@@ -27,7 +27,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        const existingUser = await User.findOne({ googleId: profile.id });
+        const existingUser = await User.findOne({ email: profile.emails[0].value });
 
         if (existingUser) {
           const token = jwt.sign(
@@ -44,11 +44,12 @@ passport.use(
         }
 
         const newUser = await new User({
+          googleId: profile.id,
           name: profile.displayName,
           email: profile.emails[0].value,
-          googleAccountId: profile.id,
-          profilePic: profile.photos[0].value,
+          profilePicture: profile.photos[0].value,
           isVerified: true,
+          accountCreatedOn: new Date(),
         }).save();
 
         await sendEmail(
@@ -77,3 +78,4 @@ passport.use(
 );
 
 module.exports = passport;
+
